@@ -6,7 +6,7 @@
 </head>
 <body>
     <?php
-    print "Test";
+    print "POTI";
     ?>
 </body>
 </html>
