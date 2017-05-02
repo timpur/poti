@@ -1,7 +1,5 @@
 <?php
-
-
-return (object) array(
+$config = (object) array(
     'host' => 'localhost',
     'username' => 'user',
     'password' => 'user@01',
@@ -15,5 +13,18 @@ return (object) array(
     )
 );
 
+
+class Flight{
+    var $rout;
+    var $from;
+    var $to;
+    var $price;
+    function __construct($rout, $from, $to, $price ) {
+        $this->rout = $rout;
+        $this->from = $from;
+        $this->to = $to;
+        $this->price = $price;
+    }
+}
 
 ?>
