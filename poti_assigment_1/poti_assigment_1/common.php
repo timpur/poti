@@ -19,8 +19,8 @@ class Flight{
     var $from;
     var $to;
     var $price;
-    function __construct($rout, $from, $to, $price ) {
-        $this->rout = $rout;
+    function __construct($route, $from, $to, $price ) {
+        $this->route = $route;
         $this->from = $from;
         $this->to = $to;
         $this->price = $price;
