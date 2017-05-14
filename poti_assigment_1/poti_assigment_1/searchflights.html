@@ -75,12 +75,16 @@
 			var success = true;
 			var selectedRadio = $("#flighttable input[name='selection']:checked");
 			if (selectedRadio.length == 0) {
-				var data = { message: 'Please select a Flight' };
-				var snackbarContainer = $("#toast")[0];
-				snackbarContainer.MaterialSnackbar.showSnackbar(data);
+				showMessage('Please select a Flight');
 				success = false;
 			}
 			return success;
+		}
+		
+		function showMessage(message){
+			var data = { message: message };
+			var snackbarContainer = $("#snackbarContainer")[0];
+			snackbarContainer.MaterialSnackbar.showSnackbar(data);
 		}
 
 	</script>
@@ -122,7 +126,7 @@
 			<p>Please try again</p>
 		</div>
 	</div>
-	<div id="toast" class="mdl-js-snackbar mdl-snackbar">
+	<div id="snackbarContainer" class="mdl-js-snackbar mdl-snackbar">
 		<div class="mdl-snackbar__text"></div>
 		<button class="mdl-snackbar__action" type="button"></button>
 	</div>

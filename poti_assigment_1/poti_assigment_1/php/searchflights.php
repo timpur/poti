@@ -3,17 +3,11 @@ include('common.php');
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-$conn = dbConnect($config);
+$conn = dbConnect();
 
 $flights = getFlights($conn, $config->table, $data);
 
 print(json_encode($flights));
-
-function dbConnect($config){
-    $conn = new mysqli($config->host, $config->username, $config->password, $config->database);
-    if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
-    return $conn;
-}
 
 function getFlights($conn, $table, $data){
     // Get Params set if exist else set to null;

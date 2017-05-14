@@ -1,12 +1,10 @@
 <?php
 include('php/common.php');
 
-$data = json_decode(file_get_contents('php://input'), true);
-
-session_start();
+//$data = json_decode(file_get_contents('php://input'), true);
 
 $bookings = getBookings();
-$bookings->clearBookings();
+//$bookings->clearBookings();
 $currentBooking = getCurrentBooking($bookings);
 
 if(!isset($currentBooking)){
@@ -39,12 +37,7 @@ function checkNewSessionBooking($bookings){
 	return null;
 }
 
-function getBookings(){
-	if(!isset($_SESSION["bookings"])){
-		$_SESSION["bookings"] = new Bookings();
-	}
-	return $_SESSION["bookings"];
-}
+
 
 ?>
 
@@ -60,7 +53,8 @@ function getBookings(){
 	<script src="scripts/common.js"></script>
 	<style type="text/css"></style>
 	<script type="text/javascript">
-		var seats = [{row:1,col:1,Child:true}];
+		var bookingID = <?php print($currentBooking->ID); ?>;
+		var seats = <?php print(json_encode($currentBooking->seats)); ?>;
 		
 		$(document).ready(function(){
 			loadSeats();
@@ -167,7 +161,7 @@ function getBookings(){
 			row.append(generateSeatOptionCB(seat,"Adult"));
 			row.append(generateSeatOptionCB(seat,"Child"));
 			row.append(generateSeatOptionCB(seat,"Wheelchair"));
-			row.append(generateSeatOptionCB(seat,"Special Diet"));
+			row.append(generateSeatOptionCB(seat,"SpecialDiet"));
 			return row;
 		}
 		
@@ -191,14 +185,17 @@ function getBookings(){
 		function next(){
 			if(validateSeats())
 			{
-				
+				var data = {bookingID:bookingID, seats:seats};
+				callPHP("php/savebooking.php", data, saveSuccess);
 			}
 			//jQuery.redirect("",seats);
 		}
 		
 		function validateSeats(){
-			if(seats.length == 0)
+			if(seats.length == 0){
+				showMessage('Please select at lest on seat.');
 				return false;
+			}
 			var success = true;			
 			for(var i = 0; i < seats.length; ++i){
 				if(!validateSeat(seats[i]))
@@ -206,11 +203,29 @@ function getBookings(){
 			}
 			return success;
 		}
-		
+			
 		function validateSeat(seat){
-			if(seat['Adult'] || seat['Child'])
-				return true;			
-			return false
+			if(seat['Adult'] && seat['Child']){
+				showMessage("Error: You cannot select both Adult and Child for a Seat.");
+				return false;
+			}
+			else if(!(seat['Adult'] || seat['Child'])){
+				showMessage("Error: You must select either Adult or Child.");
+				return false;	
+			}
+			return true;
+		}
+		
+		function saveSuccess(status){
+			if(status){
+				window.location.assign("bookings.php")
+			}
+		}
+		
+		function showMessage(message){
+			var data = { message: message };
+			var snackbarContainer = $("#snackbarContainer")[0];
+			snackbarContainer.MaterialSnackbar.showSnackbar(data);
 		}
 		
 	</script>
@@ -253,6 +268,10 @@ function getBookings(){
 		<br/>
 		<br/>
 		<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="next()" >Next</button>
+	</div>
+	<div id="snackbarContainer" class="mdl-js-snackbar mdl-snackbar">
+		<div class="mdl-snackbar__text"></div>
+		<button class="mdl-snackbar__action" type="button"></button>
 	</div>
 </body>
 </html>
