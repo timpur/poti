@@ -1,40 +1,44 @@
 <?php
 include('php/common.php');
 
-//$data = json_decode(file_get_contents('php://input'), true);
-
 $bookings = getBookings();
 //$bookings->clearBookings();
+$selectedFlightNo = isset($_REQUEST["selection"]) ? $_REQUEST["selection"] : NULL;
 $currentBooking = getCurrentBooking($bookings);
 
-if(!isset($currentBooking)){
+if($currentBooking === NULL && $selectedFlightNo === NULL){
 	die("Error: No vailid booking ID was given");
 }
-	
-
-//echo json_encode($currentBooking)."<br/>";
-//echo json_encode($bookings);
-
-
 
 
 function getCurrentBooking($bookings){
-	$booking = checkNewSessionBooking($bookings);
-	if(!isset($booking)){
-		$bookingID = isset($_REQUEST["bookingid"]) ? $_REQUEST["bookingid"] : null;
-		if($bookingID){
-			$booking = $bookings->findBookingViaID($bookingID);
-		}
+	$bookingID = isset($_REQUEST["bookingid"]) ? $_REQUEST["bookingid"] : NULL;
+	if($bookingID !== NULL){
+		return $bookings->findBookingViaID($bookingID);
 	}
-	return $booking;
+	return NULL;
 }
 
-function checkNewSessionBooking($bookings){
-	$selectedFlightNo = isset($_REQUEST["selection"]) ? $_REQUEST["selection"] : null;
-	if($selectedFlightNo){
-		return $bookings->addBooking($selectedFlightNo);
-	}
-	return null;
+function getCurrentBookingID(){
+	global $currentBooking, $selectedFlightNo;
+	if($currentBooking !== NULL)
+		return $currentBooking->ID;
+	else
+		return -1;
+}
+function getCurrentBookingRoute(){
+	global $currentBooking, $selectedFlightNo;
+	if($currentBooking !== NULL)
+		return $currentBooking->route;
+	else
+		return $selectedFlightNo;
+}
+function getCurrentBookingSeats(){
+	global $currentBooking, $selectedFlightNo;
+	if($currentBooking !== NULL)
+		return $currentBooking->seats;
+	else
+		return array();
 }
 
 
@@ -44,17 +48,17 @@ function checkNewSessionBooking($bookings){
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Seat Selection</title>
 	<meta charset="utf-8" />
 	<script src="scripts/jquery-3.2.1.min.js"></script>
 	<link href="styles/material.min.css" rel="stylesheet" />
 	<script src="scripts/material.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 	<script src="scripts/common.js"></script>
-	<style type="text/css"></style>
 	<script type="text/javascript">
-		var bookingID = <?php print($currentBooking->ID); ?>;
-		var seats = <?php print(json_encode($currentBooking->seats)); ?>;
+		var bookingID = <?php print(getCurrentBookingID()); ?>;
+		var route = <?php print(getCurrentBookingRoute()); ?>;
+		var seats = <?php print(json_encode(getCurrentBookingSeats())); ?>;
 		
 		$(document).ready(function(){
 			loadSeats();
@@ -185,7 +189,7 @@ function checkNewSessionBooking($bookings){
 		function next(){
 			if(validateSeats())
 			{
-				var data = {bookingID:bookingID, seats:seats};
+				var data = {bookingID:bookingID, route:route, seats:seats};
 				callPHP("php/savebooking.php", data, saveSuccess);
 			}
 			//jQuery.redirect("",seats);
@@ -231,47 +235,70 @@ function checkNewSessionBooking($bookings){
 	</script>
 </head>
 <body>
-	<div style="text-align:center;">
-		<h1>Seat Selection</h1>
-		<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin:auto; width:auto">
-		  <thead>
-			 <tr>
-				<th></th>
-				<th class="mdl-data-table__cell--non-numeric">A</th>
-				<th class="mdl-data-table__cell--non-numeric">B</th>
-				<th class="mdl-data-table__cell--non-numeric">C</th>
-				<th class="mdl-data-table__cell--non-numeric">D</th>
-				<th class="mdl-data-table__cell--non-numeric">E</th>
-			 </tr>
-		  </thead>
-		  <tbody id="SeatsTableBody">
-		  </tbody>
-		</table>
-	</div>
-	<div style="text-align:center;">
-		<h1>Seat Options</h1>
-		<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin:auto; width:auto">
-			<thead>
-				<tr>
-					<th class="mdl-data-table__cell--non-numeric">Seat Name</th>
-					<th class="mdl-data-table__cell--non-numeric">Adult</th>
-					<th class="mdl-data-table__cell--non-numeric">Child</th>
-					<th class="mdl-data-table__cell--non-numeric">Wheelchair</th>
-					<th class="mdl-data-table__cell--non-numeric">Special Diet</th>
-				</tr>
-			</thead>
-			<tbody id="OptionsTableBody">
-			</tbody>
-		</table>
-	</div>
-	<div style="text-align:center;">
-		<br/>
-		<br/>
-		<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="next()" >Next</button>
-	</div>
-	<div id="snackbarContainer" class="mdl-js-snackbar mdl-snackbar">
-		<div class="mdl-snackbar__text"></div>
-		<button class="mdl-snackbar__action" type="button"></button>
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+		<header class="mdl-layout__header">
+			<div class="mdl-layout__header-row">
+				<span class="mdl-layout-title">Seat Selection</span>
+			</div>
+		</header>
+		<div class="mdl-layout__drawer">
+			<span class="mdl-layout-title">Navigation</span>
+			<nav class="mdl-navigation">
+				<a class="mdl-navigation__link" href="index.html">Home</a>
+				<a class="mdl-navigation__link" href="searchflights.html">Search For Flights</a>
+				<a class="mdl-navigation__link" href="bookings.php">My Bookings</a>
+			</nav>
+		</div>
+		<main class="mdl-layout__content">
+			<div class="page-content" style="text-align:center;">
+				<h1>Seat Selection</h1>
+				<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin:auto; width:auto">
+				  <thead>
+					 <tr>
+						<th></th>
+						<th class="mdl-data-table__cell--non-numeric">A</th>
+						<th class="mdl-data-table__cell--non-numeric">B</th>
+						<th class="mdl-data-table__cell--non-numeric">C</th>
+						<th class="mdl-data-table__cell--non-numeric">D</th>
+						<th class="mdl-data-table__cell--non-numeric">E</th>
+					 </tr>
+				  </thead>
+				  <tbody id="SeatsTableBody">
+				  </tbody>
+				</table>
+				<h1>Seat Options</h1>
+				<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin:auto; width:auto">
+					<thead>
+						<tr>
+							<th class="mdl-data-table__cell--non-numeric">Seat Name</th>
+							<th class="mdl-data-table__cell--non-numeric">Adult</th>
+							<th class="mdl-data-table__cell--non-numeric">Child</th>
+							<th class="mdl-data-table__cell--non-numeric">Wheelchair</th>
+							<th class="mdl-data-table__cell--non-numeric">Special Diet</th>
+						</tr>
+					</thead>
+					<tbody id="OptionsTableBody">
+					</tbody>
+				</table>
+				<br/>
+				<br/>
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="next()" >Next</button>
+				<br/>
+				<br/>
+				<div id="snackbarContainer" class="mdl-js-snackbar mdl-snackbar mdl-color--accent">
+					<div class="mdl-snackbar__text"></div>
+					<button class="mdl-snackbar__action" type="button"></button>
+				</div>
+			</div>
+		</main>
+		<footer class="mdl-mini-footer" style="padding:20px 16px;">
+			<div class="mdl-mini-footer__left-section">
+				<div class="mdl-logo">More About Us</div>
+				<ul class="mdl-mini-footer__link-list">
+				  <li><a href="contactus.php">Contact Us</a></li>
+				</ul>
+			</div>
+		</footer>
 	</div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 include('common.php');
 
-$data = json_decode(file_get_contents('php://input'), true);
+$data = json_decode(file_get_contents('php://input'));
 
 $conn = dbConnect();
 
@@ -11,8 +11,8 @@ print(json_encode($flights));
 
 function getFlights($conn, $table, $data){
     // Get Params set if exist else set to null;
-    $from = isset($data["from"]) ? $data["from"] : null;
-    $to = isset($data["to"]) ? $data["to"]: null;
+    $from = isset($data->from) ? $data->from : null;
+    $to = isset($data->to) ? $data->to: null;
 
     // Base Query
     $sql = "SELECT $table->route, $table->from, $table->to, $table->price FROM $table->name";

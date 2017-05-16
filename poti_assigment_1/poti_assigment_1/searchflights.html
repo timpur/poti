@@ -1,14 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Search For Flights</title>
 	<meta charset="utf-8" />
 	<script src="scripts/jquery-3.2.1.min.js"></script>
 	<link href="styles/material.min.css" rel="stylesheet" />
 	<script src="scripts/material.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 	<script src="scripts/common.js"></script>
-	<style type="text/css"></style>
 	<script type="text/javascript">
 
 		$(document).ready(function () {
@@ -89,46 +88,75 @@
 
 	</script>
 </head>
-<body style="text-align:center;">
-	<h1>Search for Flights</h1>
-	<div id="search">
-		<h3>Search</h3>
-		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-			<label class="mdl-textfield__label" for="searchFrom">From Location</label>
-			<input class="mdl-textfield__input" type="text" id="searchFrom" name="from" />
+<body>
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+		<header class="mdl-layout__header">
+			<div class="mdl-layout__header-row">
+				<span class="mdl-layout-title">Search For Flights</span>
+			</div>
+		</header>
+		<div class="mdl-layout__drawer">
+			<span class="mdl-layout-title">Navigation</span>
+			<nav class="mdl-navigation">
+				<a class="mdl-navigation__link" href="index.html">Home</a>
+				<a class="mdl-navigation__link" href="searchflights.html">Search For Flights</a>
+				<a class="mdl-navigation__link" href="bookings.php">My Bookings</a>
+			</nav>
 		</div>
-		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-			<label class="mdl-textfield__label" for="searchTo">To Location</label>
-			<input class="mdl-textfield__input" type="text" id="searchTo" name="to" />
-		</div>
-		<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" onclick="searchBTNClick()">
-			<i class="material-icons">search</i>
-		</button>
-	</div>
-	<div>
-		<h3>Flight Results</h3>
-		<form id="flightform" action="seatselection.php" method="get">
-			<table id="flighttable" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin:auto; width:auto">
-				<thead>
-					<tr>
-						<th class="mdl-data-table__cell--non-numeric">From</th>
-						<th class="mdl-data-table__cell--non-numeric">To</th>
-						<th class="mdl-data-table__cell--non-numeric">Select</th>
-					</tr>
-				</thead>
-				<tbody id="flighttablebody"></tbody>
-			</table>
-			<br />
-			<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" type="submit">Next</button>
-		</form>
-		<div id="noresultscontainer">
-			<p>No Results Foud</p>
-			<p>Please try again</p>
-		</div>
-	</div>
-	<div id="snackbarContainer" class="mdl-js-snackbar mdl-snackbar">
-		<div class="mdl-snackbar__text"></div>
-		<button class="mdl-snackbar__action" type="button"></button>
+		<main class="mdl-layout__content" >
+			<div class="page-content" style="text-align:center;">
+				<h1>Search for Flights</h1>
+				<div id="search">
+					<h3>Search</h3>
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						<label class="mdl-textfield__label" for="searchFrom">From Location</label>
+						<input class="mdl-textfield__input" type="text" id="searchFrom" name="from" />
+					</div>
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						<label class="mdl-textfield__label" for="searchTo">To Location</label>
+						<input class="mdl-textfield__input" type="text" id="searchTo" name="to" />
+					</div>
+					<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" onclick="searchBTNClick()">
+						<i class="material-icons">search</i>
+					</button>
+				</div>
+				<div>
+					<h3>Flight Results</h3>
+					<form id="flightform" action="seatselection.php" method="get">
+						<table id="flighttable" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin:auto; width:auto">
+							<thead>
+								<tr>
+									<th class="mdl-data-table__cell--non-numeric">From</th>
+									<th class="mdl-data-table__cell--non-numeric">To</th>
+									<th class="mdl-data-table__cell--non-numeric">Select</th>
+								</tr>
+							</thead>
+							<tbody id="flighttablebody"></tbody>
+						</table>
+						<br />
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" type="submit">Next</button>
+					</form>
+					<div id="noresultscontainer">
+						<p>No Results Foud</p>
+						<p>Please try again</p>
+					</div>
+					<br/>
+					<br/>
+				</div>
+				<div id="snackbarContainer" class="mdl-js-snackbar mdl-snackbar mdl-color--accent">
+					<div class="mdl-snackbar__text"></div>
+					<button class="mdl-snackbar__action" type="button"></button>
+				</div>
+			</div>
+		</main>
+		<footer class="mdl-mini-footer" style="padding:20px 16px;">
+			<div class="mdl-mini-footer__left-section">
+				<div class="mdl-logo">More About Us</div>
+				<ul class="mdl-mini-footer__link-list">
+				  <li><a href="contactus.php">Contact Us</a></li>
+				</ul>
+			</div>
+		</footer>
 	</div>
 </body>
 </html>

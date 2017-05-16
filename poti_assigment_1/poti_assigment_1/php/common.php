@@ -1,9 +1,10 @@
 <?php
+// Common Config + DB translation
 $config = (object) array(
-    'host' => 'localhost',
-    'username' => 'user',
-    'password' => 'user@01',
-    'database' => 'test',
+    'host' => 'localhost', //'rerun',
+    'username' => 'user', //'potiro',
+    'password' => 'user@01', //'pcXZb(kL',
+    'database' => 'test', //'poti',
     'table' => (object) array(
         'name' => 'flights',
         'route' => 'route_no',
@@ -12,7 +13,7 @@ $config = (object) array(
         'price' => 'price'
     )
 );
-
+// DB Functions
 function dbConnect(){
 	global $config;
     $conn = new mysqli($config->host, $config->username, $config->password, $config->database);
@@ -20,6 +21,19 @@ function dbConnect(){
     return $conn;
 }
 
+function getFlight($route){
+	global $conn, $config;
+	$table = $config->table;
+    $sql = "SELECT $table->route, $table->from, $table->to, $table->price FROM $table->name WHERE $table->route=$route";
+    $result = $conn->query($sql);
+    if ($result->num_rows == 1) {
+        while($row = $result->fetch_assoc()) {
+            return new Flight($row[$table->route],$row[$table->from],$row[$table->to],$row[$table->price]);
+        }
+    }
+}
+
+// Data Objects
 
 class Flight{
     var $route;
@@ -60,6 +74,12 @@ class Bookings{
 	public function clearBookings(){
 		$this->bookings = array();
 		$this->num = 1;
+	}
+	
+	public function removeBooking($id){
+		$index = $this->findBookingIndexViaID($id);
+		if($index !== NULL)
+			array_splice($this->bookings, $index, 1);
 	}
 
 	public function findBookingViaID($id){
@@ -115,5 +135,34 @@ class Seat{
 		foreach ($obj AS $key => $value) $this->{$key} = $value;
     }
 }
+
+// JSON add on since UNI Servers dont have the json functions :(
+/**
+ * Provides a pure PHP json_decode function
+ */
+
+if ( ! function_exists('json_decode')) {
+  require_once('json.php');
+  function json_decode($var) {
+    $JSON = new Services_JSON;
+    return $JSON->decode($var);
+  }
+}
+
+// ----------------------------------------------------------------------
+
+/**
+ * Provides a pure PHP json_encode function
+ */
+
+if ( ! function_exists('json_encode')) {
+  require_once('json.php');
+
+  function json_encode($var) {
+    $JSON = new Services_JSON;
+    return $JSON->encode($var);
+  }
+}
+
 
 ?>
