@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8" />
+	<script src="scripts/jquery-3.2.1.min.js"></script>
+	<link href="styles/material.min.css" rel="stylesheet" />
+	<script src="scripts/material.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+	<script src="scripts/common.js"></script>
+    <title>Booking Success</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+		<header class="mdl-layout__header">
+			<div class="mdl-layout__header-row">
+				<span class="mdl-layout-title">Contact Us</span>
+			</div>
+		</header>
+		<div class="mdl-layout__drawer">
+			<span class="mdl-layout-title">Navigation</span>
+			<nav class="mdl-navigation">
+				<a class="mdl-navigation__link" href="index.html">Home</a>
+				<a class="mdl-navigation__link" href="searchflights.html">Search For Flights</a>
+				<a class="mdl-navigation__link" href="bookings.php">My Bookings</a>
+			</nav>
+		</div>
+		<main class="mdl-layout__content">
+			<div class="page-content" style="text-align:center;">
+				<h3>Contact Us</h3>
+				<form action="sendmsg.php" method="post">
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						<input class="mdl-textfield__input" type="text" id="firstname" name="firstname">
+						<label class="mdl-textfield__label" for="firstname">First Name</label>
+					</div>
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						<input class="mdl-textfield__input" type="text" id="lastname" name="lastname">
+						<label class="mdl-textfield__label" for="lastname">Last Name</label>
+					</div>
+					<br/>
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						<input class="mdl-textfield__input" type="text" id="email" name="email">
+						<label class="mdl-textfield__label" for="Email">Email</label>
+					</div>
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						<input class="mdl-textfield__input" type="text" id="subject" name="subject">
+						<label class="mdl-textfield__label" for="subject">Subject</label>
+					</div>
+					<br/>
+					<div class="mdl-textfield mdl-js-textfield" style="width:600px;">
+						<textarea class="mdl-textfield__input" type="text" rows= "3" maxrows="10" id="message" name="message"></textarea>
+						<label class="mdl-textfield__label" for="message">Message</label>
+					</div>
+					<br/>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" type="submit">Submit</button>
+				</form>
+			</div>
+		</main>
+		<footer class="mdl-mini-footer" style="padding:20px 16px;">
+			<div class="mdl-mini-footer__left-section">
+				<div class="mdl-logo">More About Us</div>
+				<ul class="mdl-mini-footer__link-list">
+				  <li><a href="contactus.html">Contact Us</a></li>
+				</ul>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>

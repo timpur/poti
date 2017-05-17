@@ -45,14 +45,13 @@
 		function addFlightToTable(flight) {
 			var tableBody = $("#flighttablebody");
 			var flightRow = $("<tr>");
+			var cb = $('<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">').attr({'for':"option-"+flight.route}).append(
+					$('<input type="radio" class="mdl-radio__button" name="selection">').attr({'id':"option-"+flight.route, 'value':flight.route})
+				);
+			componentHandler.upgradeElement(cb[0]);
 			flightRow.append($('<td class="mdl-data-table__cell--non-numeric">').text(flight.from));
 			flightRow.append($('<td class="mdl-data-table__cell--non-numeric">').text(flight.to));
-			flightRow.append($('<td class="mdl-data-table__cell--non-numeric">').append(
-				$("<input>", {
-					"type": "radio",
-					"name": "selection",
-					"value": flight.route
-			})));
+			flightRow.append($('<td class="mdl-data-table__cell--non-numeric">').append(cb));
 
 			tableBody.append(flightRow);
 		}
@@ -153,7 +152,7 @@
 			<div class="mdl-mini-footer__left-section">
 				<div class="mdl-logo">More About Us</div>
 				<ul class="mdl-mini-footer__link-list">
-				  <li><a href="contactus.php">Contact Us</a></li>
+				  <li><a href="contactus.html">Contact Us</a></li>
 				</ul>
 			</div>
 		</footer>

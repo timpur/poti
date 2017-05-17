@@ -150,6 +150,8 @@ function checkClearBookings(){
 							<span style="display:inline-block; width:20px;"></span>
 							<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" href="bookings.php?clear=true">Clear Flights</a>
 						</div>
+						<br/>
+						<p>Please select a booking to continue to checkout</p>
 					</form>
 				</div>
 				<div id="snackbarContainer" class="mdl-js-snackbar mdl-snackbar mdl-color--accent">
@@ -162,7 +164,7 @@ function checkClearBookings(){
 			<div class="mdl-mini-footer__left-section">
 				<div class="mdl-logo">More About Us</div>
 				<ul class="mdl-mini-footer__link-list">
-				  <li><a href="contactus.php">Contact Us</a></li>
+				  <li><a href="contactus.html">Contact Us</a></li>
 				</ul>
 			</div>
 		</footer>

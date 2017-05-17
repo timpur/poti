@@ -295,7 +295,7 @@ function getCurrentBookingSeats(){
 			<div class="mdl-mini-footer__left-section">
 				<div class="mdl-logo">More About Us</div>
 				<ul class="mdl-mini-footer__link-list">
-				  <li><a href="contactus.php">Contact Us</a></li>
+				  <li><a href="contactus.html">Contact Us</a></li>
 				</ul>
 			</div>
 		</footer>

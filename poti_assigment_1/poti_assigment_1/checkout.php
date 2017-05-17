@@ -164,26 +164,28 @@ function getCurrentBookings(){
 										</tr>
 									</thead>
 									<tbody>
-										<?php foreach($currentBookings as $booking) { 
-											$flight = getFlight($booking->route);
-											$seatCount = count($booking->seats);
-											$price = $flight->price;
-											$bookingTotal = $price * $seatCount;
-											global $total;
-											$total += $bookingTotal;
+										<?php 
+											$total = 0;
+											foreach($currentBookings as $booking) { 
+												$flight = getFlight($booking->route);
+												$seatCount = count($booking->seats);
+												$price = $flight->price;
+												$bookingTotal = $price * $seatCount;
+												global $total;
+												$total += $bookingTotal;
 										?>
 										<tr>
-											<td class="mdl-data-table__cell--non-numeric">Flight: <?php print($flight->from . " to " . $flight->to . ", Seats") ?></td>
-											<td class=""><?php print($seatCount) ?></td>
-											<td class="">$<?php print($price) ?></td>
-											<td class="">$<?php print($bookingTotal) ?></td>
+											<td class="mdl-data-table__cell--non-numeric">Flight: <?php print($flight->from . " to " . $flight->to) ?></td>
+											<td><?php print($seatCount) ?></td>
+											<td>$<?php print($price) ?></td>
+											<td>$<?php print($bookingTotal) ?></td>
 										</tr>
 										<?php } ?>
 										<tr>
 											<td class="mdl-data-table__cell--non-numeric">Total</td>
-											<td class=""></td>
-											<td class=""></td>
-											<td class="">$<?php print($total) ?></td>
+											<td></td>
+											<td></td>
+											<td>$<?php print($total) ?></td>
 										</tr>
 									</tbody>
 								</table>
@@ -232,7 +234,7 @@ function getCurrentBookings(){
 										<span class="mdl-textfield__error">Not a valid Post Code (4)</span>
 									</div>
 									<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
-										<select class="mdl-selectfield__select" id="country" name="country" required" onchange="onCountryChange(this)">
+										<select class="mdl-selectfield__select" id="country" name="country" required onchange="onCountryChange(this)">
 										  <option value=""></option>
 										  <option value="aus">Australia</option>
 										  <option value="usa">USA</option>
@@ -286,7 +288,7 @@ function getCurrentBookings(){
 									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label half">
 										<input class="mdl-textfield__input" type="text" id="exdate" name="exdate" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
 										<label class="mdl-textfield__label" for="exdate">Exspiry Date</label>
-										<span class="mdl-textfield__error">Date format: yyy-mm-dd</span>
+										<span class="mdl-textfield__error">Date format: yyyy-mm-dd</span>
 									</div>
 								</div>
 								<br/>
@@ -304,26 +306,28 @@ function getCurrentBookings(){
 										</tr>
 									</thead>
 									<tbody>
-										<?php foreach($currentBookings as $booking) { 
-											$flight = getFlight($booking->route);
-											$seatCount = count($booking->seats);
-											$price = $flight->price;
-											$bookingTotal = $price * $seatCount;
-											global $total;
-											$total += $bookingTotal;
+										<?php 
+											$total = 0;
+											foreach($currentBookings as $booking) { 
+												$flight = getFlight($booking->route);
+												$seatCount = count($booking->seats);
+												$price = $flight->price;
+												$bookingTotal = $price * $seatCount;
+												global $total;
+												$total += $bookingTotal;
 										?>
 										<tr>
-											<td class="mdl-data-table__cell--non-numeric">Flight: <?php print($flight->from . " to " . $flight->to . ", Seats") ?></td>
-											<td class=""><?php print($seatCount) ?></td>
-											<td class="">$<?php print($price) ?></td>
-											<td class="">$<?php print($bookingTotal) ?></td>
+											<td class="mdl-data-table__cell--non-numeric">Flight: <?php print($flight->from . " to " . $flight->to) ?></td>
+											<td><?php print($seatCount) ?></td>
+											<td>$<?php print($price) ?></td>
+											<td>$<?php print($bookingTotal) ?></td>
 										</tr>
 										<?php } ?>
 										<tr>
 											<td class="mdl-data-table__cell--non-numeric">Total</td>
-											<td class=""></td>
-											<td class=""></td>
-											<td class="">$<?php print($total) ?></td>
+											<td></td>
+											<td></td>
+											<td>$<?php print($total) ?></td>
 										</tr>
 									</tbody>
 								</table>
@@ -356,7 +360,7 @@ function getCurrentBookings(){
 			<div class="mdl-mini-footer__left-section">
 				<div class="mdl-logo">More About Us</div>
 				<ul class="mdl-mini-footer__link-list">
-				  <li><a href="contactus.php">Contact Us</a></li>
+				  <li><a href="contactus.html">Contact Us</a></li>
 				</ul>
 			</div>
 		</footer>
